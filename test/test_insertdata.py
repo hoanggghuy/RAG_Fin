@@ -6,7 +6,7 @@ def main():
         db_collection="test_collection",
         db_url="localhost:6333",
         vector_size=1024,
-        embedding_path=r"C:\Users\ADMIN\Desktop\RAG\data"
+        embedding_path="./data"
     )
     db = QdrantLocal(config=my_config)
     db.init_db_collection()
