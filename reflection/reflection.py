@@ -19,5 +19,5 @@ class Reflection:
             "role": "user",
             "content": f"{history_string} đây là lịch sử trò chuyện hãy kết hợp cùng {query} để đưa ra câu hỏi chính xác nhất mà khách hàng đang muốn hỏi. Kết quả trả về duy nhất là câu hỏi sát với {query} nhất và nội dung kết quả không được bao gồm các thông tin trong lịch sử trò chuyện và các câu hỏi trước đó. Không được hỏi thêm gì."
         }
-        completion = self.llm.generate_content(conversation)
+        completion = self.llm.generate_content([conversation])
         return completion

@@ -17,7 +17,7 @@ class RAG:
         if self.type == 'qdrant':
             self.qdrant_url = qdrant_url
             self.qdrant_api = qdrant_api
-            self.qdrant_collection = embedding_model.split('/')[-1]
+            self.qdrant_collection = "datachatbot3"
             self.client = QdrantClient(self.qdrant_url,self.qdrant_api)
         elif self.type == 'mongodb':
             self.client = pymongo.MongoClient(mongo_url)
@@ -50,12 +50,11 @@ class RAG:
                     limit=top_k,
                 )
                 results = []
-                for hit in hits:
-                    results.append(
-                        {
-                            "score": hit["score"],
-                            "text": hit.payload.get("page_content") if "page_content" in hit.payload else None,
-                        }
+                for hit in hits.points:
+                    results.append({
+                        "score": hit.score,
+                        "text": hit.payload.get("page_content") if "page_content" in hit.payload else None,
+                    }
                     )
                 return results
             else:

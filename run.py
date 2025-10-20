@@ -13,12 +13,12 @@ load_dotenv()
 os.environ["TF_ENABLE_ONEDNN_OPTS"]="0"
 
 def main(args):
-    product_route = "product"
-    chitchat_route = "chitchat"
+    product_route_name = "product"
+    chitchat_route_name = "chitchat"
     # Setup SemanticRouter
     embedding = SentenceTransformerEmbeddings(ConfigEmbeddings(name=args.embedding_model))
-    product_route = Route(name=product_route,sample=productsSample)
-    chitchat_route = Route(name=chitchat_route,sample=chitchatSample)
+    product_route = Route(name=product_route_name,sample=productsSample)
+    chitchat_route = Route(name=chitchat_route_name,sample=chitchatSample)
     router = SemanticRouter(embedding=embedding,routes=[chitchat_route,product_route])
 
     # Setup LLMs
@@ -64,9 +64,9 @@ def main(args):
 
     query = input("Please enter a query: ")
     score, router_name =router.guide(query)
-    if router_name == product_route:
+    if router_name == product_route_name:
         reflected_query = reflection(data,query=query)
-        docs = RAG.vector_search(query=reflected_query,top_k=2)
+        docs = rag.vector_search(query=reflected_query,top_k=2)
         source_information = ""
         for doc in docs:
             source_information += doc["text"]
@@ -79,7 +79,7 @@ def main(args):
         response = llm.generate_content(data)
         print(reflected_query)
         print("-----------------------------")
-    elif router_name == "chitchat":
+    elif router_name == chitchat_route_name:
         query_chitchat = [{
             "role": "user",
             "content": query
