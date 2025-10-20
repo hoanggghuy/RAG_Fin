@@ -1,1 +1,2 @@
 from embedding.base import BaseEmbeddings, ConfigEmbeddings
+from embedding.sentence_transformers import SentenceTransformerEmbeddings

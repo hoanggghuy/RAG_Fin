@@ -1,9 +1,9 @@
-from pydantic import BaseModel, Field, validators
+from pydantic import BaseModel, Field, field_validator
 
 
 class ConfigEmbeddings(BaseModel):
     name: str = Field(..., description="The name of the SentenceTransformer model")
-    @validators("name")
+    @field_validator("name")
     def check_name(cls, value):
         if not isinstance(value, str) or not value.strip():
             raise ValueError("SentenceTransformer name cannot be empty")
