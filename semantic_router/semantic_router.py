@@ -42,7 +42,7 @@ class SemanticRouter:
         # Calculate the cosine similarity of the query embedding with the sample embeddings of the router.
 
         for route in self.routes:
-            routesEmbedding = self.routesEmbedding[route.name]
+            routesEmbedding = self.route_embedding[route.name]
             score = np.mean(np.dot(routesEmbedding, queryEmbedding.T).flatten())
             scores.append((score, route.name))
 
