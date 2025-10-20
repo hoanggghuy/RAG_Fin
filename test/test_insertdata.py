@@ -13,5 +13,6 @@ def main():
     data = db.load_embedding()
     db.insert_vector_embedding(embedding_to_db=data)
 
+
 if __name__ == "__main__":
     main()
