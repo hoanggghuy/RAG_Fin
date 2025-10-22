@@ -3,7 +3,7 @@ from insert_data import QdrantLocal,BaseConfigDB,BaseVectorDB
 def main():
     my_config = BaseConfigDB(
         name="QdrantLocal",
-        db_collection="test_collection",
+        db_collection="dataphone",
         db_url="localhost:6333",
         vector_size=1024,
         embedding_path="./data"
