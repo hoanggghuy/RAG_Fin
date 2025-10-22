@@ -61,35 +61,35 @@ def main(args):
         )
     else:
         print("Only supported Qdrant mode ....")
-
-    query = input("Please enter a query: ")
-    score, router_name =router.guide(query)
-    if router_name == product_route_name:
-        reflected_query = reflection(data,query=query)
-        docs = rag.vector_search(query=reflected_query,top_k=2)
-        source_information = ""
-        for doc in docs:
-            source_information += doc["text"]
-        combined_information = f"Hãy trở thành chuyên gia tư vấn bán hàng cho một cửa hàng điện thoại. Câu hỏi của khách hàng: {reflected_query}\nTrả lời câu hỏi dựa vào các thông tin sản phẩm dưới đây: {source_information}."
-        data.append({
-            "role": "user",
-            "content": combined_information
-        }
-        )
-        response = llm.generate_content(data)
-        print(reflected_query)
+    while True:
+        query = input("Please enter a query: ")
+        score, router_name =router.guide(query)
+        if router_name == product_route_name:
+            reflected_query = reflection(data,query=query)
+            docs = rag.vector_search(query=reflected_query,top_k=2)
+            source_information = ""
+            for doc in docs:
+                source_information += doc["text"]
+            combined_information = f"Hãy trở thành chuyên gia tư vấn bán hàng cho một cửa hàng điện thoại. Câu hỏi của khách hàng: {reflected_query}\nTrả lời câu hỏi dựa vào các thông tin sản phẩm dưới đây: {source_information}."
+            data.append({
+                "role": "user",
+                "content": combined_information
+            }
+            )
+            response = llm.generate_content(data)
+            print(reflected_query)
+            print("-----------------------------")
+        elif router_name == chitchat_route_name:
+            query_chitchat = [{
+                "role": "user",
+                "content": query
+            }]
+            response = llm.generate_content(query_chitchat)
+        print(response)
         print("-----------------------------")
-    elif router_name == chitchat_route_name:
-        query_chitchat = [{
-            "role": "user",
-            "content": query
-        }]
-        response = llm.generate_content(query_chitchat)
-    print(response)
-    print("-----------------------------")
-    print(data)
-    print("-----------------------------")
-    print(router_name)
+        print(data)
+        print("-----------------------------")
+        print(router_name)
 
 
 
@@ -107,6 +107,5 @@ if __name__ == "__main__":
     feature_group.add_argument('--embedding_model', type=str, default='Qwen/Qwen3-Embedding-0.6B', help='Declare what embedding model to use for RAG')
 
     args = parser.parse_args()
-    while True:
-        main(args)
+    main(args)
 
