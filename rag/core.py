@@ -37,7 +37,7 @@ class RAG:
         if not text.strip():
             return []
         embedding = self.embedding_model.encode(text)
-        return embedding.tolist()
+        return embedding
     def vector_search(self,query:str,top_k = 3):
         query_embedding = self.get_embedding(query)
         if query_embedding is None:

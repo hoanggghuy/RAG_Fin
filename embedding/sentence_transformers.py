@@ -6,4 +6,4 @@ class SentenceTransformerEmbeddings(BaseEmbeddings):
         self.config = config
         self.embedding_model = SentenceTransformer(config.name,trust_remote_code=True)
     def encode(self,text:str):
-        return self.embedding_model.encode(text)
+        return self.embedding_model.encode(text).tolist()
