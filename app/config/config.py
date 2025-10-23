@@ -3,7 +3,9 @@ from typing import Optional
 
 class Settings(BaseSettings):
     #Setting LLMs
-    MODEL: str = "online"
+    MODE: str = "online"
+    MODEL_API_KEY: Optional[str] = None
+    MODEL_BASE_URL: Optional[str] = None
     MODEL_NAME: str = "openai"
     MODEL_ENGINE: str = "openai"
     MODEL_VERSION: str = "gpt-5-mini"
