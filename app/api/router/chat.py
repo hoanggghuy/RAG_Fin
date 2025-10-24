@@ -1,6 +1,5 @@
 import json
 from fastapi import APIRouter, Request, Depends, HTTPException
-from fastapi.responses import StreamingResponse
 from typing import List,Dict,Any
 from app.api.dependencies import get_semantic_router,get_llm,get_rag,get_reflection
 from app.schema.schema import ChatRequest,ChatHistory,ChatResponse
@@ -9,13 +8,13 @@ from rag.core import RAG
 from reflection import Reflection
 from semantic_router import SemanticRouter
 
-router = APIRouter(
+router_chat = APIRouter(
     prefix="/chat",
     tags=["Userchat"]
 )
 PRODUCT_ROUTE_NAME = "product"
 CHITCHAT_ROUTE_NAME = "chitchat"
-@router.post("/")
+@router_chat.post("/")
 async def stream_chat(
         request: ChatRequest,
         client_request: Request,
