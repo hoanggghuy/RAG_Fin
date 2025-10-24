@@ -14,8 +14,9 @@ router_chat = APIRouter(
 )
 PRODUCT_ROUTE_NAME = "product"
 CHITCHAT_ROUTE_NAME = "chitchat"
+SOURCE_CACHE = {}
 @router_chat.post("/")
-async def stream_chat(
+async def chat(
         request: ChatRequest,
         client_request: Request,
         llm: LLMs = Depends(get_llm),
@@ -31,8 +32,12 @@ async def stream_chat(
 
     if router_name == PRODUCT_ROUTE_NAME:
         reflected_query = reflection(history_dicts,query)
-        docs = rag.vector_search(query=reflected_query,top_k=3)
-        source_information = "\n".join([doc["text"] for doc in docs])
+        if reflected_query in SOURCE_CACHE:
+            source_information = SOURCE_CACHE[reflected_query]
+        else:
+            docs = rag.vector_search(query=reflected_query,top_k=2)
+            source_information = "\n".join([doc["text"] for doc in docs])
+            SOURCE_CACHE[reflected_query] = source_information
         combined_information = f"Hãy trở thành chuyên gia tư vấn bán hàng cho một cửa hàng điện thoại. Câu hỏi của khách hàng: {reflected_query}\nTrả lời câu hỏi dựa vào các thông tin sản phẩm dưới đây: {source_information}."
         history_dicts.append(
             {

@@ -11,13 +11,12 @@ class Reflection:
                 concat_text.append(f"{role}: {content}")
         return ''.join(concat_text)
     def __call__(self, chat_history, query,length = 10):
-        if not chat_history: return query
         if len(chat_history) >= length:
             chat_history = chat_history[len(chat_history) - length:]
         history_string = self.concat_and_format_text(chat_history)
-        conversation = {
+        self.conversation = {
             "role": "user",
             "content": f"{history_string} đây là lịch sử trò chuyện hãy kết hợp cùng {query} để đưa ra câu hỏi chính xác nhất mà khách hàng đang muốn hỏi. Kết quả trả về duy nhất là câu hỏi sát với {query} nhất và nội dung kết quả không được bao gồm các thông tin trong lịch sử trò chuyện và các câu hỏi trước đó. Không được hỏi thêm gì."
         }
-        completion = self.llm.generate_content([conversation])
+        completion = self.llm.generate_content([self.conversation])
         return completion

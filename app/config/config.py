@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     QDRANT_API_KEY: Optional[str] = None
     QDRANT_URL: Optional[str] = None
 
+    #Setting Whisper
+    FFMPEG_PATH: str
+    WHISPER_SIZE_MODEL: str
     TF_ENABLE_ONEDNN_OPTS: str = "0"
 
     class Config:

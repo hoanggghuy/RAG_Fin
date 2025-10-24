@@ -61,16 +61,17 @@ def main(args):
         )
     else:
         print("Only supported Qdrant mode ....")
+    source_information = ""
+    data = []
     while True:
         query = input("Please enter a query: ")
         score, router_name =router.guide(query)
         if router_name == product_route_name:
-            reflected_query = reflection(data,query=query)
+            reflected_query = reflection(chat_history=data,query=query)
             docs = rag.vector_search(query=reflected_query,top_k=2)
-            source_information = ""
             for doc in docs:
                 source_information += doc["text"]
-            combined_information = f"Hãy trở thành chuyên gia tư vấn bán hàng cho một cửa hàng điện thoại. Câu hỏi của khách hàng: {reflected_query}\nTrả lời câu hỏi dựa vào các thông tin sản phẩm dưới đây: {source_information}."
+            combined_information = f"Hãy trở thành chuyên gia tư vấn bán hàng cho một cửa hàng điện thoại. Câu hỏi của khách hàng: {reflected_query}\nTrả lời tâập trung vào câu hỏi của khách hàng dựa vào các thông tin sản phẩm dưới đây: {source_information}."
             data.append({
                 "role": "user",
                 "content": combined_information
@@ -94,7 +95,6 @@ def main(args):
 
 
 if __name__ == "__main__":
-    data = []
     parser = argparse.ArgumentParser()
     model_group = parser.add_argument_group("Model Option")
     model_group.add_argument('-m','--mode', type=str, choices=['online', 'offline'], default='online', help='Choose either online or offline mode system')
