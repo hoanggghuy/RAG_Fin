@@ -8,9 +8,10 @@ class ChatHistory(BaseModel):
 
 class ChatRequest(BaseModel):
     query: str
-    history: List[ChatHistory] =[]
+    session_id: Optional[str] = None
 class ChatResponse(BaseModel):
     response: str
     router_name: str
     reflected_query: Optional[str] =None
     history: Optional[List[Dict[str,str]]] =[]
+    session_id: str

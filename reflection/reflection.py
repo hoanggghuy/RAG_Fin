@@ -9,7 +9,7 @@ class Reflection:
 
             if role and content:
                 concat_text.append(f"{role}: {content}")
-        return ''.join(concat_text)
+        return '\n'.join(concat_text)
     def __call__(self, chat_history, query,length = 10):
         if len(chat_history) >= length:
             chat_history = chat_history[len(chat_history) - length:]
